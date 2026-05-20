@@ -1,7 +1,9 @@
 package com.eventledger.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
 
     private final String message;

@@ -34,7 +34,8 @@ class EventLedgerIntegrationTest {
     private void submitEvent(String body) throws Exception {
         mockMvc.perform(post("/events")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(body));
+                .content(body))
+                .andExpect(status().is2xxSuccessful());
     }
 
     // --- Successful event creation ---

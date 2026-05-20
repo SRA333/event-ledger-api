@@ -10,7 +10,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     Optional<Event> findByEventId(String eventId);
 
-    boolean existsByEventId(String eventId);
-
     List<Event> findByAccountIdOrderByEventTimestampAsc(String accountId);
 }

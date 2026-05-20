@@ -6,5 +6,4 @@ target/
 .DS_Store
 *.class
 *.jar
-!.mvn/wrapper/maven-wrapper.jar
 .claude/
