@@ -95,7 +95,14 @@ JDBC URL: `jdbc:h2:mem:eventledger` · User: `sa` · Password: *(empty)*
 mvn test
 ```
 
-Runs 19 integration tests via MockMvc against a full Spring context with an in-memory H2 database. The database is cleared between every test.
+Runs all 26 tests and generates a JaCoCo coverage report at `target/site/jacoco/index.html`.
+
+| Test class | Type | Count |
+|---|---|---|
+| `EventServiceTest` | Unit — Mockito, no Spring context | 7 |
+| `EventLedgerIntegrationTest` | Integration — `@SpringBootTest` + MockMvc + H2 | 19 |
+
+The integration tests clear the database with `deleteAll()` before every test.
 
 ---
 
@@ -232,6 +239,7 @@ This project was built with AI-assisted engineering practices across the full SD
 | Logging and auditing | `EventService` — `[AUDIT]`-prefixed SLF4J entries on every operation |
 | Meaningful Git commits | 8 commits; see `git log --oneline` |
 | **QA Agent** | |
-| Unit / integration tests | `EventLedgerIntegrationTest` — 19 tests, all passing |
+| Unit tests | `EventServiceTest` — 7 Mockito tests, service layer in isolation |
+| Integration tests | `EventLedgerIntegrationTest` — 19 MockMvc tests, all passing |
 | Test coverage report | JaCoCo — `target/site/jacoco/index.html` after `mvn test` |
 | Functional test coverage | [`docs/testing-report.md`](docs/testing-report.md) — 14 manual scenarios, all passing |

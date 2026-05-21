@@ -6,11 +6,14 @@
 mvn test
 ```
 
-This compiles the project, runs all 19 integration tests, and generates a JaCoCo HTML coverage report.
+Runs all 26 tests across both test classes and generates a JaCoCo HTML coverage report.
+
+| Test class | Type | Tests |
+|---|---|---|
+| `EventServiceTest` | Unit — Mockito, no Spring context | 7 |
+| `EventLedgerIntegrationTest` | Integration — `@SpringBootTest` + MockMvc + H2 | 19 |
 
 **Coverage report location:** `target/site/jacoco/index.html`
-
-Open in a browser after running `mvn test`:
 
 ```bash
 open target/site/jacoco/index.html   # macOS
@@ -19,9 +22,28 @@ xdg-open target/site/jacoco/index.html  # Linux
 
 ---
 
-## Automated Test Suite — All Passing
+## Unit Test Suite — EventServiceTest
 
-**Test class:** `com.eventledger.EventLedgerIntegrationTest`  
+**File:** `src/test/java/com/eventledger/service/EventServiceTest.java`  
+**Framework:** JUnit 5 + Mockito (`@ExtendWith(MockitoExtension.class)`)  
+**Scope:** `EventService` in isolation — `EventRepository` is mocked, no Spring context started  
+**Total:** 7 tests, 0 failures, 0 errors
+
+| Test | What it verifies |
+|---|---|
+| `createEvent_newEvent_savesAndReturnsIsCreatedTrue` | New `eventId` → repository `save()` called, `isCreated=true`, correct fields returned |
+| `createEvent_duplicateEventId_returnsExistingEventWithIsCreatedFalse` | Existing `eventId` → `save()` never called, `isCreated=false`, original event returned |
+| `createEvent_concurrentDuplicate_recoversAndReturnsExistingEvent` | `DataIntegrityViolationException` on `save()` → service fetches and returns the winning row, `isCreated=false` |
+| `getEventById_found_returnsCorrectEventResponse` | Known `eventId` → correct `EventResponse` fields |
+| `getEventById_notFound_throwsEventNotFoundException` | Unknown `eventId` → `EventNotFoundException` thrown |
+| `getBalance_multipleCreditsAndDebits_returnsCorrectNetBalance` | CREDIT 300 + CREDIT 100 − DEBIT 80 = balance 320 |
+| `getEventsByAccount_delegatesOrderingToRepository` | Result list preserves repository order; `findByAccountIdOrderByEventTimestampAsc` called exactly once |
+
+---
+
+## Integration Test Suite — EventLedgerIntegrationTest
+
+**File:** `src/test/java/com/eventledger/EventLedgerIntegrationTest.java`  
 **Framework:** JUnit 5 + Spring Boot `@SpringBootTest` + MockMvc  
 **Database:** H2 in-memory, cleared with `deleteAll()` before every test  
 **Total:** 19 tests, 0 failures, 0 errors
