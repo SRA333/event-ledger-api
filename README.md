@@ -15,7 +15,7 @@ A financial transaction ledger that accepts events from multiple upstream system
 | ORM | Spring Data JPA / Hibernate |
 | Validation | Jakarta Bean Validation |
 | API Docs | springdoc-openapi (Swagger UI) |
-| Testing | JUnit 5, MockMvc |
+| Testing | JUnit 5, MockMvc, Mockito, JaCoCo |
 
 ---
 
@@ -237,7 +237,7 @@ This project was built with AI-assisted engineering practices across the full SD
 | **Development Agent** | |
 | Error handling | `GlobalExceptionHandler` — 400 / 404 / 500 with structured JSON |
 | Logging and auditing | `EventService` — `[AUDIT]`-prefixed SLF4J entries on every operation |
-| Meaningful Git commits | 8 commits; see `git log --oneline` |
+| Meaningful Git commits | Meaningful commit history; see `git log --oneline` |
 | **QA Agent** | |
 | Unit tests | `EventServiceTest` — 7 Mockito tests, service layer in isolation |
 | Integration tests | `EventLedgerIntegrationTest` — 19 MockMvc tests, all passing |
