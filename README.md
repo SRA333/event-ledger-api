@@ -201,4 +201,37 @@ docker run -p 8080:8080 event-ledger-api
 | Pagination | Not implemented | Keyset pagination on `eventTimestamp` + `eventId` |
 | Currency | Stored as a free-text string | Enum or ISO 4217 validation |
 | Concurrency | Single-node safe via DB constraint | Optimistic locking or event-store CAS for multi-replica |
-| Observability | Spring Boot default logging | Structured JSON logs, metrics (Micrometer), distributed tracing |
+| Observability | SLF4J audit logging | Structured JSON logs, metrics (Micrometer), distributed tracing |
+
+---
+
+## AI-Assisted SDLC Deliverables
+
+This project was built with AI-assisted engineering practices across the full SDLC. The following documents cover each phase:
+
+| Document | Description |
+|---|---|
+| [`docs/design.md`](docs/design.md) | Problem summary, requirements, API design, data model, idempotency, balance calculation, validation, logging |
+| [`docs/architecture.md`](docs/architecture.md) | Layered architecture explanation and Mermaid diagram with request flow traces |
+| [`docs/ai-sdlc.md`](docs/ai-sdlc.md) | How AI assistance was applied across Design, Development, and QA phases |
+| [`docs/testing-report.md`](docs/testing-report.md) | Full test suite listing, functional test coverage, end-to-end scenarios, JaCoCo coverage report guide |
+
+**Coverage report:** run `mvn test`, then open `target/site/jacoco/index.html`.
+
+---
+
+## Evaluation Checklist
+
+| Requested Item | Where it is covered |
+|---|---|
+| **Design Agent** | |
+| Design document | [`docs/design.md`](docs/design.md) |
+| Architecture / design diagram | [`docs/architecture.md`](docs/architecture.md) — Mermaid flowchart |
+| **Development Agent** | |
+| Error handling | `GlobalExceptionHandler` — 400 / 404 / 500 with structured JSON |
+| Logging and auditing | `EventService` — `[AUDIT]`-prefixed SLF4J entries on every operation |
+| Meaningful Git commits | 8 commits; see `git log --oneline` |
+| **QA Agent** | |
+| Unit / integration tests | `EventLedgerIntegrationTest` — 19 tests, all passing |
+| Test coverage report | JaCoCo — `target/site/jacoco/index.html` after `mvn test` |
+| Functional test coverage | [`docs/testing-report.md`](docs/testing-report.md) — 14 manual scenarios, all passing |
